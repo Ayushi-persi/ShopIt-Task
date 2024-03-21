@@ -1,12 +1,17 @@
 import {
   FETCH_PRODUCT_SAGA,
+  FETCH_PRODUCT_BY_ID_SAGA,
   ADD_PRODUCT_SAGA,
   DELETE_PRODUCT_SAGA,
   UPDATE_PRODUCT_SAGA,
+  SEARCH_PRODUCT_SAGA,
 } from "../../constants/constants";
 
 const initialState = {
   products: [],
+  product: {},
+  searchedProducts: [],
+  totalProducts: 0,
 };
 
 const productReducer = (state = initialState, action) => {
@@ -14,7 +19,19 @@ const productReducer = (state = initialState, action) => {
     case FETCH_PRODUCT_SAGA:
       return {
         ...state,
-        products: action.payload,
+        products: action.payload.products,
+        totalProducts: action.payload.totalProducts,
+      };
+    case FETCH_PRODUCT_BY_ID_SAGA:
+      return {
+        ...state,
+        product: action.payload.product,
+      };
+    case SEARCH_PRODUCT_SAGA:
+      return {
+        ...state,
+        searchedProducts: action.payload.searchedProducts,
+        totalProducts: action.payload.totalProducts,
       };
     case ADD_PRODUCT_SAGA:
       return {

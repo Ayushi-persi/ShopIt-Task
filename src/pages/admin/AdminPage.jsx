@@ -8,7 +8,7 @@ import {
 } from "../../redux/actions/productAction";
 import ProductForm from "../../components/ProductForm";
 
-const AdminPage = () => {
+const AdminPage = ({ isAdmin }) => {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.products.products);
 

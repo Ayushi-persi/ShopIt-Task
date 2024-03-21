@@ -1,21 +1,22 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import InputField from "../../components/InputField";
 import { useFormik } from "formik";
 import { loginSchema } from "../../utils/loginSchema";
-
+import { loginUser } from "../../redux/actions/authAction";
 const initialValues = {
   loginEmail: "",
   loginPassword: "",
 };
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: loginSchema,
       onSubmit: (values, action) => {
-        // Login work here
-        console.log("Login Details : " + JSON.stringify(values));
+        dispatch(loginUser(values));
         action.resetForm();
       },
     });

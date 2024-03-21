@@ -1,7 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
 import { useFormik } from "formik";
 import { signupSchema } from "../../utils/signupSchema";
+import { registerUser } from "../../redux/actions/authAction";
 
 const initialValues = {
   name: "",
@@ -12,13 +15,15 @@ const initialValues = {
 };
 
 const SignupPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signupSchema,
       onSubmit: (values, action) => {
-        // SignUp work here
-        console.log("Registration Details : " + JSON.stringify(values));
+        dispatch(registerUser(values));
+        navigate("/login");
         action.resetForm();
       },
     });

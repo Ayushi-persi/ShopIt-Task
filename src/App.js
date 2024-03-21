@@ -1,21 +1,15 @@
-import SignupPage from "./pages/authentication/SignupPage";
-import LoginPage from "./pages/authentication/LoginPage";
-import AdminPage from "./pages/admin/AdminPage";
-import Extra from "./pages/Extra";
-import HomePage from "./pages/HomePage";
-import ProductForm from "./components/ProductForm";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRouter from "./routers/AppRouter";
+import Navbar from "./components/Navbar";
 
-function App() {
+function App({ isAuthenticated, isAdmin }) {
   return (
-    <div>
-      {/* <Extra /> */}
-      {/* <SignupPage /> */}
-      {/* <LoginPage /> */}
-      {/* <ProductForm /> */}
-      <HomePage />
-      <hr />
-      <AdminPage />
-    </div>
+    <>
+      <Router>
+        <Navbar />
+        <AppRouter />
+      </Router>
+    </>
   );
 }
 
