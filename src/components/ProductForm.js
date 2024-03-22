@@ -2,7 +2,7 @@ import React from "react";
 import InputField from "../components/InputField";
 import { useFormik } from "formik";
 import { productSchema } from "../utils/productSchema";
-
+import "../styles/Form.css";
 const ProductForm = ({ product, handleAddProduct, handleUpdateProduct }) => {
   const initialValues = product
     ? { ...product }
@@ -20,7 +20,6 @@ const ProductForm = ({ product, handleAddProduct, handleUpdateProduct }) => {
       initialValues,
       validationSchema: productSchema,
       onSubmit: (values, action) => {
-        // Save data work here
         product
           ? handleUpdateProduct({ ...values, id: product.id })
           : handleAddProduct(values);
@@ -31,9 +30,9 @@ const ProductForm = ({ product, handleAddProduct, handleUpdateProduct }) => {
 
   return (
     <>
-      <div>
-        <div>
-          <div>
+      <div className="container">
+        <div className="left">
+          <div className="header-form ">
             <h1>Add New Products</h1>
           </div>
           <form onSubmit={handleSubmit}>
@@ -109,7 +108,9 @@ const ProductForm = ({ product, handleAddProduct, handleUpdateProduct }) => {
                 touched={touched.color}
               />
             </div>
-            <button type="submit">{product ? "Update" : "Save"}</button>
+            <button type="submit" className="form-btn ">
+              {product ? "Update" : "Save"}
+            </button>
           </form>
         </div>
       </div>

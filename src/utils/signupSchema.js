@@ -2,14 +2,13 @@ import * as Yup from "yup";
 
 export const signupSchema = Yup.object({
   name: Yup.string()
-    .trim("Check for unnecessary spaces")
+    .trim("Please enter correct name")
     .strict(true)
-    // .transform((val) => val.trim())
     .matches(/^[a-zA-Z ]+$/, "Name must contain only alphabets and spaces")
     .required("Name is required")
     .min(2, "Name must be at least 2 characters"),
   email: Yup.string()
-    .email("Invalid email address")
+    .matches(/^\S+@\S+\.\S+$/, "Invalid email address")
     .required("Email is required"),
   phone_no: Yup.string()
     .matches(/^[0-9]+$/, "Phone number must contain only digits")

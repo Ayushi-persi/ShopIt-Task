@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../styles/Form.css";
 const InputField = ({
   label,
   name,
@@ -11,7 +11,7 @@ const InputField = ({
   touched,
 }) => {
   return (
-    <div>
+    <div className="inputfield">
       <label htmlFor={name}>{label}</label>
       <input
         type={type}

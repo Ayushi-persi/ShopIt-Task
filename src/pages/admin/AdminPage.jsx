@@ -7,21 +7,31 @@ import {
   updateProduct,
 } from "../../redux/actions/productAction";
 import ProductForm from "../../components/ProductForm";
+import Pagination from "../../components/Pagination";
+import { Link } from "react-router-dom";
 
-const AdminPage = ({ isAdmin }) => {
+const AdminPage = () => {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.products.products);
+  const totalProducts = useSelector((state) => state.products.totalProducts);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 9;
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchProduct());
-  }, [dispatch]);
+    dispatch(fetchProduct(currentPage, productsPerPage));
+  }, [dispatch, currentPage]);
 
   useEffect(() => {
     if (isFormOpen) window.scrollTo({ top: 10, behavior: "smooth" });
   }, [isFormOpen]);
+
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleAddProduct = (product) => {
     dispatch(addProduct(product));
@@ -46,7 +56,9 @@ const AdminPage = ({ isAdmin }) => {
   return (
     <>
       <h1>Admin Page</h1>
-      <button onClick={handleAddButtonClick}>Add Product</button>
+      <button onClick={handleAddButtonClick} className="btn">
+        Add Product
+      </button>
       {isFormOpen && (
         <ProductForm
           product={selectedProduct}
@@ -55,32 +67,59 @@ const AdminPage = ({ isAdmin }) => {
         />
       )}
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "50px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "80px",
+          justifyContent: "space-evenly",
+        }}
+      >
         {productData.map((product) => {
           return (
-            <div key={product.id}>
-              <p>{product.title}</p>
-              <img
-                src={product.image}
-                style={{ width: "100px", height: "100px" }}
-                alt="Product"
-              />
-              <h4> {product.price}</h4>
-              <button onClick={() => dispatch(deleteProduct(product.id))}>
-                Delete Product
-              </button>
-              <button
-                onClick={() => {
-                  handleUpdateButtonClick(product);
-                }}
-              >
-                Update Product
-              </button>
+            <div key={product.id} className="card">
+              <div>
+                <Link
+                  to={`/ProductDetails/${product.id}`}
+                  className="card-link"
+                >
+                  <img
+                    src={product.image}
+                    alt="Product"
+                    className="product-img"
+                  />
+                </Link>
+                <h4>{product.title}</h4>
+                <p>
+                  <del className="price">{product.price}</del>
+                  {product.offerPrice}
+                </p>
+              </div>
+              <div>
+                <button
+                  onClick={() => dispatch(deleteProduct(product.id))}
+                  className="btn"
+                >
+                  Delete Product
+                </button>
+                <button
+                  onClick={() => {
+                    handleUpdateButtonClick(product);
+                  }}
+                  className="btn"
+                >
+                  Update Product
+                </button>
+              </div>
             </div>
           );
         })}
       </div>
-      <h2>{productData.length}</h2>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 };

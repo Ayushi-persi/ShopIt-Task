@@ -12,7 +12,6 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: [...state.userData, action.payload],
-        // isAuthenticated: true,
       };
     case LOGIN:
       const loginData = action.payload;

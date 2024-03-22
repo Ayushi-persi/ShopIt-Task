@@ -1,43 +1,58 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect, useDispatch } from "react-redux";
-import { logout } from "../redux/actions/authAction";
-
+import { connect, useSelector } from "react-redux";
+import "../styles/Navbar.css";
+import { FaShoppingCart, FaHeart, FaSignOutAlt } from "react-icons/fa";
 const Navbar = ({ isAuthenticated, isAdmin }) => {
-  const dispatch = useDispatch();
+  const cartLength = useSelector((state) => state.cartData.length);
+  const wishlistLength = useSelector((state) => state.wishlistData.length);
 
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/wishlist">Wishlist</Link>
-        </li>
-        <li>
-          <Link to="/cart">Cart</Link>
-        </li>
-        {isAdmin && (
-          <li>
-            <Link to="/admin">Admin</Link>
-          </li>
+    <nav className="header">
+      <Link to="/">
+        <h1 className="logo">Shop-It</h1>
+      </Link>
+      <div className="header-items">
+        {isAdmin ? (
+          <Link to="/admin" className="nav-link">
+            Admin
+          </Link>
+        ) : (
+          <Link to="/" className="nav-link">
+            Products
+          </Link>
         )}
+      </div>
+      <div className="header-items">
         {isAuthenticated ? (
-          <li>
-            <button onClick={() => dispatch(logout())}>Logout</button>
-          </li>
+          <>
+            {!isAdmin && (
+              <>
+                <Link to="/wishlist" className="nav-link icon">
+                  <FaHeart />
+                  <span className="icon-span">{wishlistLength}</span>
+                </Link>
+                <Link to="/cart" className="nav-link icon">
+                  <FaShoppingCart />
+                  <span className="icon-span">{cartLength}</span>
+                </Link>
+              </>
+            )}
+            <Link to="/logout" className="nav-link icon">
+              <FaSignOutAlt />
+            </Link>
+          </>
         ) : (
           <>
-            <li>
-              <Link to="/register">Sign Up</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
+            <Link to="/register" className="nav-link">
+              Sign Up
+            </Link>
+            <Link to="/login" className="nav-link">
+              Login
+            </Link>
           </>
         )}
-      </ul>
+      </div>
     </nav>
   );
 };

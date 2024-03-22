@@ -2,16 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProduct } from "../redux/actions/productAction";
 import Pagination from "../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { addToCart } from "../redux/actions/cartAction";
 import { addToWishlist } from "../redux/actions/wishlistAction";
-import WishlistPage from "./WishlistPage";
+import Banner from "../assets/banner.png";
+import "../styles/Form.css";
+import { FaShoppingCart, FaHeart } from "react-icons/fa";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.products.products);
   const totalProducts = useSelector((state) => state.products.totalProducts);
-  let cartData = useSelector((state) => state.cartData);
+  const isAuthenticated = useSelector(
+    (state) => state.userData.isAuthenticated
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
 
@@ -26,38 +30,59 @@ const HomePage = () => {
 
   return (
     <>
-      <h1>Home Page</h1>
-
-      <h2>{cartData.length}</h2>
-
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "50px" }}>
+      <img src={Banner} alt="banner" className="banner" />
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "80px",
+          justifyContent: "space-evenly",
+        }}
+      >
         {productData.map((product) => {
           return (
-            <div key={product.id}>
-              <Link to={`/ProductDetails/${product.id}`}>
+            <div key={product.id} className="card">
+              <div>
+                <Link
+                  to={`/ProductDetails/${product.id}`}
+                  className="card-link"
+                >
+                  <img
+                    src={product.image}
+                    alt="Product"
+                    className="product-img"
+                  />
+                </Link>
                 <h4>{product.title}</h4>
-                <img
-                  src={product.image}
-                  style={{ width: "100px", height: "100px" }}
-                  alt="Product"
-                />
-                <h4>
-                  <del>{product.price}</del>
+                <p>
+                  <del className="price">{product.price}</del>
                   {product.offerPrice}
-                </h4>
-              </Link>
-              <button onClick={() => dispatch(addToWishlist(product))}>
-                Add to Wishlist
-              </button>
-              <button onClick={() => dispatch(addToCart(product))}>
-                Add To Cart
-              </button>
-
-              {/* {cartData.find((obj) => obj.id === product.id) && (
-                <button onClick={() => dispatch(removeFromCart(product.id))}>
-                  Remove
+                </p>
+              </div>
+              <div>
+                <button
+                  onClick={() =>
+                    isAuthenticated
+                      ? dispatch(addToWishlist(product))
+                      : alert("Please login first!")
+                  }
+                  className="btn"
+                >
+                  Add to Wishlist
+                  <FaHeart />
                 </button>
-              )} */}
+                <button
+                  onClick={() =>
+                    isAuthenticated
+                      ? dispatch(addToCart(product))
+                      : alert("Please login first!")
+                  }
+                  className="btn"
+                >
+                  Add To Cart
+                  <FaShoppingCart />
+                </button>
+              </div>
             </div>
           );
         })}
@@ -67,7 +92,6 @@ const HomePage = () => {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-      <WishlistPage />
     </>
   );
 };

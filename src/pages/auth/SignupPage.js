@@ -30,10 +30,10 @@ const SignupPage = () => {
 
   return (
     <>
-      <div>
-        <div>
-          <div>
-            <h1>Welcomeee!</h1>
+      <div className="container">
+        <div className="left">
+          <div className="header-form ">
+            <h1>Welcome!</h1>
             <p>Please complete the registration!</p>
           </div>
           <form onSubmit={handleSubmit}>
@@ -89,8 +89,16 @@ const SignupPage = () => {
                 touched={touched.confirm_password}
               />
             </div>
-            <button type="submit">Register</button>
+            <button type="submit" className="form-btn ">
+              Register
+            </button>
           </form>
+        </div>
+        <div className="right">
+          <img
+            src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dfd2ec5a01006fd8c4d7592a381d3776&auto=format&fit=crop&w=1000&q=80"
+            alt=""
+          />
         </div>
       </div>
     </>

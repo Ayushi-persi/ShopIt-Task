@@ -11,21 +11,13 @@ import WishlistPage from "../pages/WishlistPage";
 import CartPage from "../pages/CartPage";
 import ProductPage from "../pages/ProductPage";
 import LogoutPage from "../pages/auth/LogoutPage";
-import Category from "../components/Category";
 import UserRoute from "./UserRoute";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route
-        path="/register"
-        element={
-          <UserRoute>
-            <SignupPage />
-          </UserRoute>
-        }
-      />
+      <Route path="/register" element={<SignupPage />} />
       <Route
         path="/login"
         element={
@@ -35,7 +27,6 @@ const AppRouter = () => {
         }
       />
       <Route path="/logout" element={<LogoutPage />} />
-      <Route path="/category" element={<Category />} />
       <Route
         path="/productDetails/:productId"
         element={

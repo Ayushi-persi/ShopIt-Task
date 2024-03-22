@@ -18,48 +18,62 @@ const ProductPage = () => {
 
   const product = useSelector((state) => state.products.product);
   const isAdmin = useSelector((state) => state.userData.isAdmin);
-  // let cartData = useSelector((state) => state.cartData);
 
   return (
-    <>
-      <h1>ProductPage</h1>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "50px" }}>
-        <div key={product.id}>
-          <h4>{product.title}</h4>
-          <img
-            src={product.image}
-            style={{ width: "100px", height: "100px" }}
-            alt="Product"
-          />
-          <h4>
-            <del>{product.price}</del>
-            {product.offerPrice}
-          </h4>
-          {isAdmin ? (
-            <>
-              <button onClick={() => dispatch(updateProduct(product))}>
-                Update Product
-              </button>
-              <button onClick={() => dispatch(deleteProduct(product.id))}>
-                Delete Product
-              </button>
-            </>
-          ) : (
-            <>
-              <button onClick={() => dispatch(addToCart(product))}>
-                Add to Cart
-              </button>
-              <button onClick={() => dispatch(addToWishlist(product))}>
-                Add to Wishlist
-              </button>
-            </>
-          )}
-        </div>
+    <div>
+      <div key={product.id}>
+        <img
+          src={product.image}
+          style={{ width: "300px", height: "300px" }}
+          alt="Product"
+        />
+        <h1>{product.title}</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ab
+          nostrum laudantium odit maxime reprehenderit voluptate nam nisi, sequi
+          sit.
+        </p>
+        <h4>
+          <del className="price">{product.price}</del>
+          {product.offerPrice}
+        </h4>
+        {isAdmin ? (
+          <>
+            <button
+              onClick={() => dispatch(updateProduct(product))}
+              className="btn"
+            >
+              Update Product
+            </button>
+
+            <button
+              onClick={() => dispatch(deleteProduct(product.id))}
+              className="btn"
+            >
+              Delete Product
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => dispatch(addToCart(product))}
+              className="btn"
+            >
+              Add to Cart
+            </button>
+            <button
+              onClick={() => dispatch(addToWishlist(product))}
+              className="btn"
+            >
+              Add to Wishlist
+            </button>
+          </>
+        )}
       </div>
       <p>
-        <Link to={"/"}>view all</Link>
+        <Link to={"/"}>View all Products</Link>
       </p>
-    </>
+    </div>
   );
 };
 
